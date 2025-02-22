@@ -7,7 +7,7 @@ Simplify your development workflow with a consistent and isolated setup.
 ## Features
 
 - **Preconfigured DevContainer**:
-  - Includes all necessary tools for C++ development, including compilers, debuggers, and build tools.
+  - Includes all necessary tools for C++ development, including compilers, debuggers and build tools.
   - Clang and GNU Compiler installed
   - CMake, make and Bazel installed
   

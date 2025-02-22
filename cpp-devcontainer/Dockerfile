@@ -19,10 +19,13 @@ RUN apt-get update \
     # compilers
     build-essential gdb  \
     # embedded
-    gcc-arm-none-eabi libnewlib-arm-none-eabi stlink-tools openocd  gdb-arm-none-eabi binutils-arm-none-eabi \
-    # formatting
-    cmake-format black \
+    gcc-arm-none-eabi libnewlib-arm-none-eabi stlink-tools openocd gdb-arm-none-eabi binutils-arm-none-eabi \
     && apt-get clean && apt-get autoremove
+
+COPY requirements.txt requirements.txt
+RUN pip3 install --break-system-packages -r requirements.txt \
+    && rm requirements.txt \
+    && pip cache purge
 
 # clang/llvm compiler toolchain
 RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc \
@@ -42,6 +45,10 @@ RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d
     && apt-get clean && apt-get autoremove \
     && ln -s /usr/bin/clang++-${LLVM_VERSION} /usr/local/bin/clang++ \
     && ln -s /usr/bin/clang-${LLVM_VERSION} /usr/local/bin/clang
+
+# change to gcc/g++ if you want to use the GNU compiler toolchain by default
+ENV CC="clang"
+ENV CXX="clang++"
 
 
 
