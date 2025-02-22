@@ -1,0 +1,42 @@
+{
+    "name": "dev-${localEnv:USER}",
+    "build": {
+        "context": ".",
+        "dockerfile": "./Dockerfile",
+        "args": {
+            "USERNAME": "${localEnv:USER}"
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "llvm-vs-code-extensions.vscode-clangd"
+            ],
+            "settings": {
+                "dev.containers.mountWaylandSocket": false
+            }
+        }
+    },
+    "privileged": true,
+    "mounts": [
+        {
+            "source": "${localEnv:HOME}/.bash_history",
+            "target": "${localEnv:HOME}/.bash_history",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/.cache",
+            "target": "${localEnv:HOME}/.cache",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/.ccache",
+            "target": "${localEnv:HOME}/.ccache",
+            "type": "bind"
+        }
+    ],
+    "updateRemoteUserUID": false,
+    "runArgs": [
+        "--network=host"
+    ]
+}
