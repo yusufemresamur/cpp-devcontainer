@@ -5,6 +5,7 @@ ARG USERNAME
 ARG USER_UID=1000
 ARG USER_GID=1000
 ARG LLVM_VERSION="19"
+ARG BAZEL_VERSION="8.1.0"
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
@@ -15,17 +16,21 @@ RUN apt-get update \
     # essentials
     wget curl ca-certificates gnupg2 git bash-completion python3 python3-dev python3-pip ssh \
     # build tools
-    cmake make bazel-bootstrap \
+    cmake make \
     # compilers
     build-essential gdb  \
     # embedded
     gcc-arm-none-eabi libnewlib-arm-none-eabi stlink-tools openocd gdb-arm-none-eabi binutils-arm-none-eabi \
     && apt-get clean && apt-get autoremove
 
-COPY requirements.txt requirements.txt
-RUN pip3 install --break-system-packages -r requirements.txt \
-    && rm requirements.txt \
-    && pip cache purge
+
+# install Bazel
+RUN curl https://bazel.build/bazel-release.pub.gpg | tee /etc/apt/trusted.gpg.d/bazel.build.asc \
+    && echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends bazel-$BAZEL_VERSION \
+    && ln -s /usr/bin/bazel-$BAZEL_VERSION /usr/bin/bazel \
+    && apt-get clean && apt-get autoremove
 
 # clang/llvm compiler toolchain
 RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc \
@@ -50,7 +55,10 @@ RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d
 ENV CC="clang"
 ENV CXX="clang++"
 
-
+COPY requirements.txt requirements.txt
+RUN pip3 install --break-system-packages -r requirements.txt \
+    && rm requirements.txt \
+    && pip cache purge
 
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
