@@ -30,7 +30,9 @@ RUN curl https://bazel.build/bazel-release.pub.gpg | tee /etc/apt/trusted.gpg.d/
     && apt-get update \
     && apt-get install -y --no-install-recommends bazel-$BAZEL_VERSION \
     && ln -s /usr/bin/bazel-$BAZEL_VERSION /usr/bin/bazel \
-    && apt-get clean && apt-get autoremove
+    && apt-get clean && apt-get autoremove \
+    && curl https://github.com/bazelbuild/buildtools/releases/download/v8.0.3/buildifier-linux-amd64 -o /usr/bin/buildifier \
+    && chmod +x /usr/bin/buildifier
 
 # clang/llvm compiler toolchain
 RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc \
