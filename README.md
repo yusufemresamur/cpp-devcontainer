@@ -1,22 +1,18 @@
 # cpp-devcontainer
-This repository provides a ready-to-use development environment for all kind of cpp projects including embedded projects, leveraging Docker and Visual Studio Code's DevContainers.
-Simplify your development workflow with a consistent and isolated setup.
+This repository provides a ready-to-use development environment for cpp projects. Simplify your development workflow with a consistent and isolated setup.
 
 ---
 
 ## Features
+- **Compiler**:
+   - Per default, the LLVM (v19) toolchain is installed.
 
-- **Preconfigured DevContainer**:
-  - Includes all necessary tools for C++ development, including compilers, debuggers and build tools.
-  - Clang and GNU Compiler installed
-  - CMake, make and Bazel installed
+- **Build tools**:
+  - CMake, make and Bazel (v8) are installed.
   
-- **Dockerized Environment**:
-  - Ensures consistent development environments across all platforms.
-  - Avoids dependency conflicts with local installations.
-
 - **Local User Permissions**:
   - Reflects the local user permissions inside the DevContainer to ensure seamless access to files and avoid permission issues.
+  - Per default `uid=1000` and `gid=1000` is used.
 
 ---
 
