@@ -8,7 +8,7 @@ This repository provides a ready-to-use development environment for C++ projects
    - Per default, the LLVM (v19) toolchain is installed.
 
 - **Build tools**:
-  - CMake, make and Bazelisk (v1.27.0) are installed.
+  - CMake, make, Bazelisk (v1.27.0) and Buildifier (v8.2.1) are installed.
   
 - **Local User Permissions**:
   - Reflects the local user permissions inside the DevContainer to ensure seamless access to files and avoid permission issues.

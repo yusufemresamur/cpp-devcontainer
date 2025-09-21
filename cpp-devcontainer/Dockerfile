@@ -6,11 +6,12 @@ ARG USER_UID=1000
 ARG USER_GID=1000
 ARG LLVM_VERSION="19"
 ARG BAZELISK_VERSION="1.27.0"
+ARG BUILDIFIER_VERSION="8.2.1"
 
 ENV DEBIAN_FRONTEND="noninteractive"
-COPY apt.txt apt.txt
 
 # APT
+COPY apt.txt apt.txt
 RUN apt-get update \
     && apt-get upgrade -y --no-install-recommends \
     && xargs apt-get install -y --no-install-recommends < apt.txt  \
@@ -45,10 +46,12 @@ RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d
 ENV CC="clang"
 ENV CXX="clang++"
 
-# Bazelisk
+# Bazelisk & Buildifier
 RUN curl -L https://github.com/bazelbuild/bazelisk/releases/download/v${BAZELISK_VERSION}/bazelisk-amd64.deb -o bazelisk-amd64.deb \
     && apt install -y ./bazelisk-amd64.deb \
-    && rm bazelisk-amd64.deb
+    && rm bazelisk-amd64.deb \
+    && curl -L https://github.com/bazelbuild/buildtools/releases/download/v${BUILDIFIER_VERSION}/buildifier-linux-amd64 -o buildifier \
+    && mv buildifier /usr/local/bin/buildifier
 
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
