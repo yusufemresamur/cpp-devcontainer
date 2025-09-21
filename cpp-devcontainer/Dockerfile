@@ -5,34 +5,22 @@ ARG USERNAME
 ARG USER_UID=1000
 ARG USER_GID=1000
 ARG LLVM_VERSION="19"
-ARG BAZEL_VERSION="8.1.0"
+ARG BAZELISK_VERSION="1.27.0"
 
 ENV DEBIAN_FRONTEND="noninteractive"
+COPY apt.txt apt.txt
 
-# essentials
+# APT
 RUN apt-get update \
     && apt-get upgrade -y --no-install-recommends \
-    && apt-get install -y --no-install-recommends \
-    # essentials
-    wget curl ca-certificates gnupg2 git bash-completion python3 python3-dev python3-pip ssh \
-    # build tools
-    cmake make \
-    # compilers
-    build-essential gdb  \
-    # embedded
-    gcc-arm-none-eabi libnewlib-arm-none-eabi stlink-tools openocd gdb-arm-none-eabi binutils-arm-none-eabi \
-    && apt-get clean && apt-get autoremove
+    && xargs apt-get install -y --no-install-recommends < apt.txt  \
+    && apt-get clean && apt-get autoremove && rm apt.txt
 
-
-# install Bazel
-RUN curl https://bazel.build/bazel-release.pub.gpg | tee /etc/apt/trusted.gpg.d/bazel.build.asc \
-    && echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends bazel-$BAZEL_VERSION \
-    && ln -s /usr/bin/bazel-$BAZEL_VERSION /usr/bin/bazel \
-    && apt-get clean && apt-get autoremove \
-    && curl -L https://github.com/bazelbuild/buildtools/releases/download/v8.0.3/buildifier-linux-amd64 -o /usr/bin/buildifier \
-    && chmod +x /usr/bin/buildifier
+# pip
+COPY pip.txt pip.txt
+RUN pip3 install --break-system-packages -r pip.txt \
+    && rm pip.txt \
+    && pip cache purge
 
 # clang/llvm compiler toolchain
 RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc \
@@ -57,10 +45,10 @@ RUN curl https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d
 ENV CC="clang"
 ENV CXX="clang++"
 
-COPY requirements.txt requirements.txt
-RUN pip3 install --break-system-packages -r requirements.txt \
-    && rm requirements.txt \
-    && pip cache purge
+# Bazelisk
+RUN curl -L https://github.com/bazelbuild/bazelisk/releases/download/v${BAZELISK_VERSION}/bazelisk-amd64.deb -o bazelisk-amd64.deb \
+    && apt install -y ./bazelisk-amd64.deb \
+    && rm bazelisk-amd64.deb
 
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
