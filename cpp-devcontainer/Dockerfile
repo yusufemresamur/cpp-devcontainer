@@ -50,8 +50,13 @@ ENV CXX="clang++"
 RUN curl -L https://github.com/bazelbuild/bazelisk/releases/download/v${BAZELISK_VERSION}/bazelisk-amd64.deb -o bazelisk-amd64.deb \
     && apt install -y ./bazelisk-amd64.deb \
     && rm bazelisk-amd64.deb \
-    && curl -L https://github.com/bazelbuild/buildtools/releases/download/v${BUILDIFIER_VERSION}/buildifier-linux-amd64 -o buildifier \
-    && mv buildifier /usr/local/bin/buildifier
+    # buildifier
+    && mkdir -p /usr/local/bin \
+    && curl -L https://github.com/bazelbuild/buildtools/releases/download/v${BUILDIFIER_VERSION}/buildifier-linux-amd64 -o /usr/local/bin/buildifier \
+    && chmod +x /usr/local/bin/buildifier \
+    # buildozer
+    && curl -L https://github.com/bazelbuild/buildtools/releases/download/v${BUILDIFIER_VERSION}/buildozer-linux-amd64 -o /usr/local/bin/buildozer \
+    && chmod +x /usr/local/bin/buildozer 
 
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
