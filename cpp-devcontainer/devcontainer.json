@@ -19,6 +19,7 @@
         }
     },
     "privileged": true,
+    "postStartCommand": "bash .devcontainer/entrypoint.sh",
     "mounts": [
         {
             "source": "${localEnv:HOME}/.bash_history",
