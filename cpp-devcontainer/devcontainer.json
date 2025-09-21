@@ -5,7 +5,8 @@
         "dockerfile": "./Dockerfile",
         "args": {
             "USERNAME": "${localEnv:USER}"
-        }
+        },
+        "options": ["--network=host"]
     },
     "customizations": {
         "vscode": {
