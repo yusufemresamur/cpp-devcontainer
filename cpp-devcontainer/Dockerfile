@@ -68,4 +68,4 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
-SHELL ["/bin.bash", "-c"]
+SHELL ["/bin/bash", "-c"]
