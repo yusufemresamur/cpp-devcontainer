@@ -1,5 +1,5 @@
 {
-    "name": "dev-${localEnv:USER}",
+    "name": "dev-${localWorkspaceFolderBasename}",
     "build": {
         "context": ".",
         "dockerfile": "./Dockerfile",
