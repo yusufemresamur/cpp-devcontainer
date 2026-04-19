@@ -20,7 +20,7 @@ You can add this repository to your project as a submodule for the `.devcontaine
 
 1. Add this repository as a submodule to your project:
    ```bash
-   git submodule add https://gitlab.com/yusufemresamur/cpp-devcontainer.git .devcontainer
+   git submodule add https://github.com/yusufemresamur/cpp-devcontainer.git .devcontainer
    ```
 
 2. Initialize and update the submodule:
