@@ -8,6 +8,8 @@ ARG LLVM_VERSION="19"
 ARG BAZELISK_VERSION="1.27.0"
 ARG BUILDIFIER_VERSION="8.2.1"
 
+ENV LANG=en_US.UTF-8
+
 ENV DEBIAN_FRONTEND="noninteractive"
 
 # APT
@@ -16,6 +18,11 @@ RUN apt-get update \
     && apt-get upgrade -y --no-install-recommends \
     && xargs apt-get install -y --no-install-recommends < apt.txt  \
     && apt-get clean && apt-get autoremove && rm apt.txt
+
+# locales
+RUN sed -i -e "s/# $LANG.*/$LANG UTF-8/" /etc/locale.gen && \
+    dpkg-reconfigure locales && \
+    update-locale LANG=$LANG
 
 # pip
 COPY pip.txt pip.txt

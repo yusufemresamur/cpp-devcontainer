@@ -6,6 +6,7 @@ curl
 gdb
 git
 gnupg2
+locales
 make
 python3
 python3-dev
