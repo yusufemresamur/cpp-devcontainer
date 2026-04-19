@@ -36,10 +36,16 @@
             "type": "bind"
         },
         {
-            "source": "${localEnv:HOME}/.ccache",
-            "target": "${localEnv:HOME}/.ccache",
+            "source": "${localEnv:HOME}/.netrc",
+            "target": "${localEnv:HOME}/.netrc",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/.gitconfig",
+            "target": "${localEnv:HOME}/.gitconfig",
             "type": "bind"
         }
+
     ],
     "updateRemoteUserUID": false,
     "runArgs": [
