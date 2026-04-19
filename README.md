@@ -50,10 +50,13 @@ You can add this repository to your project as a submodule for the `.devcontaine
 ## Build image manually
 To build the image manually you can use the following command:
 ```bash
-docker build -t cpp-devcontainer:latest -f cpp-devcontainer/Dockerfile \
+docker buildx build -t cpp-devcontainer:latest -f cpp-devcontainer/Dockerfile \
    --build-arg USERNAME=$(id -un) \
    --build-arg USER_UID=$(id -u) \
    --build-arg USER_GID=$(id -g) \
+   --build-arg LLVM_VERSION="20" \
+   --build-arg BAZELISK_VERSION="1.28.1" \
+   --build-arg BUILDIFIER_VERSION="8.5.1" \
    cpp-devcontainer/
 ```
 
