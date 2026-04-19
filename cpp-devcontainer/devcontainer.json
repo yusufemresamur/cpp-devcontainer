@@ -24,12 +24,12 @@
     },
     "privileged": true,
     "initializeCommand":"bash .devcontainer/cpp-devcontainer/pre-init.sh",
-    "postStartCommand": "bash .devcontainer/cpp-devcontainer/entrypoint.sh",
+    "postCreateCommand": "bash .devcontainer/cpp-devcontainer/entrypoint.sh",
     "mounts": [
         {
-            "source": "${localEnv:HOME}/.bash_history",
-            "target": "${localEnv:HOME}/.bash_history",
-            "type": "bind"
+            "source": "${localWorkspaceFolderBasename}-cmd-history",
+            "target": "/commandhistory",
+            "type": "volume"
         },
         {
             "source": "${localEnv:HOME}/.cache",
