@@ -1,4 +1,4 @@
-ARG build_image_base="debian:bookworm-slim"
+ARG build_image_base="debian:trixie-slim"
 FROM $build_image_base AS build_stage
 
 ARG USERNAME
