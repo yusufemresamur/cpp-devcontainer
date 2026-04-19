@@ -23,6 +23,7 @@
         }
     },
     "privileged": true,
+    "initializeCommand":"bash .devcontainer/cpp-devcontainer/pre-init.sh",
     "postStartCommand": "bash .devcontainer/cpp-devcontainer/entrypoint.sh",
     "mounts": [
         {
