@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-files=( "$HOME/.netrc" "$HOME/.gitconfig" "$HOME/.bash_history" )
+files=( "$HOME/.netrc" "$HOME/.gitconfig" )
 directories=( "$HOME/.cache" )
 
 
